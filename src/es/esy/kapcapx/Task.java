@@ -1,20 +1,20 @@
 package es.esy.kapcapx;
 
+import com.sun.xml.internal.txw2.annotation.XmlElement;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Task implements Serializable{
+@XmlRootElement(name = "Task")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Task {
     private String title;
     private String description;
     private Date date;
     private String contacts;
-
-    Task (String title, String description, Date date, String contacts) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.contacts = contacts;
-    }
 
     public void setTitle(String title) {
         this.title = title;
