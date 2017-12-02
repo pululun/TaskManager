@@ -1,5 +1,6 @@
 package es.esy.kapcapx;
 
+import es.esy.kapcapx.action.Act;
 import es.esy.kapcapx.serializationJAXB.Serialization;
 
 import javax.xml.bind.JAXBException;
@@ -9,25 +10,36 @@ import java.util.Date;
 public class Main {
 
     public static void main(String[] args) {
+        String path = "/home/pululun/Загрузки/test.xml";
         Tasks tasks = new Tasks();
         tasks.setTasks(new ArrayList<Task>());
 
-        Task task = new Task();
-        task.setTitle("Сейчас");
-        task.setDescription("Запилить сериализацию");
-        task.setDate(new Date());
-        task.setContacts("88006543210");
+        Tasks tasks1 = new Tasks();
+        tasks1.setTasks(new ArrayList<Task>());
 
-        Task task1 = new Task();
-        task1.setTitle("Потом");
-        task1.setDescription("Запилить добавление и удаление");
-        task1.setDate(new Date());
-        task1.setContacts("88000123456");
+        try {
+            tasks1 = Serialization.unMarshalingExample(path);
+            if (tasks1.getTasks() != null){
+                tasks = tasks1;
+            }
+        } catch (JAXBException e) {
+            System.out.println("Ошибка не удалось прочитать файл");
+            e.printStackTrace();
+        }
 
-        tasks.getTasks().add(task);
-        tasks.getTasks().add(task1);
 
-        String path = "/home/pululun/Загрузки/test.xml";
+        Act act = new Act();
+//        act.taskAdd(tasks, "Сейчас", "Запилить сериализацию", new Date(), "88006543210");
+//        act.taskAdd(tasks, "Потом", "Запилить добавление и удаление", new Date(), "88000123456");
+//        act.taskAdd(tasks, "Не сегодня", "Запилить интерфейс", new Date(), "84525454654");
+//        act.taskRemove(tasks, "Сейчас");
+
+        for (Task t : tasks.getTasks()) {
+            System.out.println(t.getTitle());
+            System.out.println(t.getDescription());
+            System.out.println(t.getDate());
+            System.out.println(t.getContacts());
+        }
 
         try {
             Serialization.marshalingExample(path, tasks);
@@ -36,21 +48,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        Tasks tasks1 = null;
 
-        try {
-            tasks1 = Serialization.unMarshalingExample(path);
-        } catch (JAXBException e) {
-            System.out.println("Ошибка не удалось прочитать файл");
-            e.printStackTrace();
-        }
 
-        for (Task t : tasks1.getTasks()) {
-            System.out.println(t.getTitle());
-            System.out.println(t.getDescription());
-            System.out.println(t.getDate());
-            System.out.println(t.getContacts());
-        }
 
     }
 }
