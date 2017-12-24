@@ -47,4 +47,9 @@ public class Task {
     public String getContacts() {
         return contacts;
     }
+
+    @Override
+    public String toString() {
+        return title + " " + description + " " + date + " " + contacts;
+    }
 }
