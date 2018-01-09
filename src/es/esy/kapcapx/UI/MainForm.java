@@ -7,12 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class MainForm extends JFrame{
     private int frameWidth = 500;
     private int frameHeight = 600;
     private JList<Task> listTask;
     private Tasks tasks;
+    private Task task;
     private JButton addButton = new JButton("Добавить");
     private JButton delButton = new JButton("Удалить");
 
@@ -56,12 +59,60 @@ public class MainForm extends JFrame{
         return bottomPanel;
     }
 
+    public void addTask() {
+        tasks.getTasks().add(this.task);
+    }
+
+    private void setTask(Task task) {
+        this.task = task;
+        System.out.println(task.toString());
+    }
+
     private class ButtonAddListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String message = "";
-            message += " YES ";
-            addButton.setText(message);
+            AddForm addForm = new AddForm();
+            addForm.setVisible(true);
+            addForm.addWindowListener(new WindowListener() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    setEnabled(false);
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if (addForm.getTask() != null) {
+                        setTask(addForm.getTask());
+
+                    }
+                    setEnabled(true);
+                }
+
+                @Override
+                public void windowIconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+
+                }
+            });
         }
     }
 
