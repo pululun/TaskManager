@@ -2,6 +2,7 @@ package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
 import es.esy.kapcapx.Tasks;
+import es.esy.kapcapx.action.Act;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class MainForm extends JFrame{
     private JList<Task> listTask;
     private Tasks tasks;
     private Task task;
+    private String titleTask;
     private JButton addButton = new JButton("Добавить");
     private JButton delButton = new JButton("Удалить");
 
@@ -60,12 +62,40 @@ public class MainForm extends JFrame{
     }
 
     public void addTask() {
-        tasks.getTasks().add(this.task);
+        Act act = new Act();
+        act.taskAdd(tasks, task.getTitle(), task.getDescription(), task.getDate(), task.getContacts());
+        updateListTask(tasks);
+    }
+
+    public void deleteTask() {
+        Act act = new Act();
+        act.taskRemove(tasks, this.titleTask);
+        updateListTask(tasks);
+    }
+
+    private void updateListTask(Tasks tasks) {
+        DefaultListModel<Task> model = new DefaultListModel<>();
+        for (Task task : tasks.getTasks()) {
+            model.addElement(task);
+        }
+        listTask.setModel(model);
     }
 
     private void setTask(Task task) {
         this.task = task;
         System.out.println(task.toString());
+    }
+
+    public Tasks getTasks() {
+        return tasks;
+    }
+
+    private void setTitleTask(String titleTask) {
+        this.titleTask = titleTask;
+    }
+
+    public String getTitleTask() {
+        return titleTask;
     }
 
     private class ButtonAddListener implements ActionListener {
@@ -88,7 +118,7 @@ public class MainForm extends JFrame{
                 public void windowClosed(WindowEvent e) {
                     if (addForm.getTask() != null) {
                         setTask(addForm.getTask());
-
+                        addTask();
                     }
                     setEnabled(true);
                 }
@@ -119,9 +149,48 @@ public class MainForm extends JFrame{
     private class ButtonDelListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String message = "";
-            message += " NO ";
-            delButton.setText(message);
+            DeleteForm deleteForm = new DeleteForm();
+            deleteForm.setVisible(true);
+            deleteForm.addWindowListener(new WindowListener() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    setEnabled(false);
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if (deleteForm.getTitleTask() != null) {
+                        setTitleTask(deleteForm.getTitleTask());
+                        deleteTask();
+                    }
+                    setEnabled(true);
+                }
+
+                @Override
+                public void windowIconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+
+                }
+            });
         }
     }
 }

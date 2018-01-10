@@ -1,7 +1,6 @@
 package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
-import es.esy.kapcapx.action.Act;
 
 import javax.swing.*;
 import java.awt.*;
