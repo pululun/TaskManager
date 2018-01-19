@@ -1,11 +1,14 @@
 package es.esy.kapcapx.UI;
 
+import es.esy.kapcapx.Tasks;
+import es.esy.kapcapx.action.Act;
+import es.esy.kapcapx.exceptions.FindTaskTitle;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,16 +23,15 @@ public class DeleteForm extends JFrame{
     private String titleDelete = "Удалить задачу";
     private String titleMessage = "Введите название задачи";
     private String errorMessageNoName = "Не введено название задачи";
+    private String errorMessageNotTaskTitle = "Ошибка, задание с таким названием не найдено";
     private JLabel jlabelMessage;
     private JTextField jTextFieldDelete;
     private JPanel jPanelBottom;
     private String titleTask;
+    private Tasks tasks;
 
-    public void setTitleTask(String titleTask) {
-        this.titleTask = titleTask;
-    }
-
-    public DeleteForm() {
+    public DeleteForm(Tasks tasks) {
+        this.tasks = tasks;
         setTitle(titleDelete);
         setSize(width, height);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -77,16 +79,31 @@ public class DeleteForm extends JFrame{
         return panel;
     }
 
-    public String getTitleTask() {
-        return titleTask;
+    private void setTitleTask(String titleTask) {
+        this.titleTask = titleTask;
+    }
+
+    private void deleteTask() {
+        Act act = new Act();
+            act.taskRemove(tasks, titleTask);
     }
 
     private class AddActionListener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
             if (jTextFieldDelete.getText().trim().length() > 0) {
-                setTitleTask(jTextFieldDelete.getText());
-                dispose();
+                if (new Act().findTitleTask(tasks, jTextFieldDelete.getText())) {
+                    setTitleTask(jTextFieldDelete.getText());
+                    deleteTask();
+                    dispose();
+                } else {
+                    try {
+                        throw new FindTaskTitle(errorMessageNotTaskTitle);
+                    } catch (FindTaskTitle findTaskTitle) {
+                        findTaskTitle.printStackTrace();
+                        JOptionPane.showMessageDialog(null, errorMessageNotTaskTitle);
+                    }
+                }
             } else {
                 JOptionPane.showMessageDialog(null, errorMessageNoName);
             }

@@ -8,8 +8,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 
-
-
 public class Serialization {
 
     public static void marshalingExample(String path, Tasks tasks) throws JAXBException {
@@ -19,7 +17,6 @@ public class Serialization {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.marshal(tasks, file);
     }
-
 
     public static Tasks unMarshalingExample(String path) throws JAXBException {
         File file = new File(path);

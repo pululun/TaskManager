@@ -2,6 +2,7 @@ package es.esy.kapcapx.action;
 
 import es.esy.kapcapx.Task;
 import es.esy.kapcapx.Tasks;
+
 import java.util.Date;
 import java.util.Iterator;
 
@@ -24,4 +25,18 @@ public class Act {
             }
         }
     }
+
+    public boolean findTitleTask(Tasks tasks, String title) {
+        boolean existenceJobName = false;
+        for (Task task : tasks.getTasks()) {
+            if (title.compareTo(task.getTitle()) == 0) {
+                existenceJobName = true;
+                break;
+            } else {
+                existenceJobName = false;
+            }
+        }
+        return existenceJobName;
+    }
+
 }

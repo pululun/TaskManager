@@ -1,6 +1,7 @@
 package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -30,7 +31,6 @@ public class TaskRenderer extends JPanel implements ListCellRenderer<Task> {
         lDescription.setBounds(12 + insets.left, 50 + insets.top, sizeDescription.width, sizeDescription.height);
         lDate.setBounds(240 + insets.left, 2 + insets.top, sizeDate.width, sizeDate.height);
         lContacts.setBounds(330 + insets.left, 110 + insets.top, sizeContacts.width, sizeContacts.height);
-
     }
 
     @Override

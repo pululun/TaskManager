@@ -2,8 +2,6 @@ package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
 import es.esy.kapcapx.Tasks;
-import es.esy.kapcapx.action.Act;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +14,6 @@ public class MainForm extends JFrame{
     private int frameHeight = 600;
     private JList<Task> listTask;
     private Tasks tasks;
-    private Task task;
-    private String titleTask;
     private JButton addButton = new JButton("Добавить");
     private JButton delButton = new JButton("Удалить");
 
@@ -61,18 +57,6 @@ public class MainForm extends JFrame{
         return bottomPanel;
     }
 
-    public void addTask() {
-        Act act = new Act();
-        act.taskAdd(tasks, task.getTitle(), task.getDescription(), task.getDate(), task.getContacts());
-        updateListTask(tasks);
-    }
-
-    public void deleteTask() {
-        Act act = new Act();
-        act.taskRemove(tasks, this.titleTask);
-        updateListTask(tasks);
-    }
-
     private void updateListTask(Tasks tasks) {
         DefaultListModel<Task> model = new DefaultListModel<>();
         for (Task task : tasks.getTasks()) {
@@ -81,27 +65,14 @@ public class MainForm extends JFrame{
         listTask.setModel(model);
     }
 
-    private void setTask(Task task) {
-        this.task = task;
-        System.out.println(task.toString());
-    }
-
     public Tasks getTasks() {
         return tasks;
-    }
-
-    private void setTitleTask(String titleTask) {
-        this.titleTask = titleTask;
-    }
-
-    public String getTitleTask() {
-        return titleTask;
     }
 
     private class ButtonAddListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            AddForm addForm = new AddForm();
+            AddForm addForm = new AddForm(tasks);
             addForm.setVisible(true);
             addForm.addWindowListener(new WindowListener() {
                 @Override
@@ -116,10 +87,7 @@ public class MainForm extends JFrame{
 
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if (addForm.getTask() != null) {
-                        setTask(addForm.getTask());
-                        addTask();
-                    }
+                    updateListTask(tasks);
                     setEnabled(true);
                 }
 
@@ -149,7 +117,7 @@ public class MainForm extends JFrame{
     private class ButtonDelListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            DeleteForm deleteForm = new DeleteForm();
+            DeleteForm deleteForm = new DeleteForm(tasks);
             deleteForm.setVisible(true);
             deleteForm.addWindowListener(new WindowListener() {
                 @Override
@@ -164,10 +132,7 @@ public class MainForm extends JFrame{
 
                 @Override
                 public void windowClosed(WindowEvent e) {
-                    if (deleteForm.getTitleTask() != null) {
-                        setTitleTask(deleteForm.getTitleTask());
-                        deleteTask();
-                    }
+                    updateListTask(tasks);
                     setEnabled(true);
                 }
 

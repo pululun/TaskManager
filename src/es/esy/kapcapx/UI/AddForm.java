@@ -1,6 +1,9 @@
 package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
+import es.esy.kapcapx.Tasks;
+import es.esy.kapcapx.action.Act;
+import es.esy.kapcapx.exceptions.FindTaskTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,22 +20,22 @@ public class AddForm extends JFrame {
     private String titleTextTask = "Текст задачи: ";
     private String titleDateTask = "Время на задачу: ";
     private String titleContactTask = "Номер телефона: ";
-
+    private String errorMessageNotTaskTitle = "Название задачи не может быть пустым!";
+    private String errorMessageTaskTitle = "Ошибка, задание с таким названием уже есть";
     private JPanel panelBottom;
-
     private JLabel labelTitle;
     private JLabel labelText;
     private JLabel labelDate;
     private JLabel labelContact;
-
     private JTextField textFieldNameTask;
     private JTextField textFieldContactTask;
     private JTextArea textAreaTextTask;
     private JSpinner spinnerDateTask;
-
+    private Tasks tasks;
     private Task task;
 
-    public AddForm() {
+    public AddForm(Tasks tasks) {
+        this.tasks = tasks;
         setTitle(titleAdd);
         setSize(width, height);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -127,12 +130,13 @@ public class AddForm extends JFrame {
         return panel;
     }
 
-    public void setTask(Task task) {
+    private void setTask(Task task) {
         this.task = task;
     }
 
-    public Task getTask() {
-        return task;
+    private void addTask() {
+        Act act = new Act();
+        act.taskAdd(tasks, task.getTitle(), task.getDescription(), task.getDate(), task.getContacts());
     }
 
     private class AddActionListener implements ActionListener{
@@ -140,15 +144,24 @@ public class AddForm extends JFrame {
         public void actionPerformed(ActionEvent e) {
             Task tempTask = new Task();
             if (textFieldNameTask.getText().trim().length() > 0) {
-                tempTask.setTitle(textFieldNameTask.getText());
-                tempTask.setDescription(textAreaTextTask.getText());
-                tempTask.setDate((Date) spinnerDateTask.getValue());
-                tempTask.setContacts(textFieldContactTask.getText());
-//                System.out.println(tempTask.toString());
-                setTask(tempTask);
-                dispose();
+                if (!new Act().findTitleTask(tasks, textFieldNameTask.getText())) {
+                    tempTask.setTitle(textFieldNameTask.getText());
+                    tempTask.setDescription(textAreaTextTask.getText());
+                    tempTask.setDate((Date) spinnerDateTask.getValue());
+                    tempTask.setContacts(textFieldContactTask.getText());
+                    setTask(tempTask);
+                    addTask();
+                    dispose();
+                } else {
+                    try {
+                        throw new FindTaskTitle(errorMessageTaskTitle);
+                    } catch (FindTaskTitle findTaskTitle) {
+                        findTaskTitle.printStackTrace();
+                        JOptionPane.showMessageDialog(null, errorMessageTaskTitle);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Название задачи не может быть пустым!");
+                JOptionPane.showMessageDialog(null, errorMessageNotTaskTitle);
             }
         }
     }
