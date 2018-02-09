@@ -2,6 +2,7 @@ package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Tasks;
 import es.esy.kapcapx.action.Act;
+import es.esy.kapcapx.action.TimeManipulation;
 import es.esy.kapcapx.exceptions.FindTaskTitle;
 
 import java.awt.Dimension;
@@ -95,6 +96,7 @@ public class DeleteForm extends JFrame{
                 if (new Act().findTitleTask(tasks, jTextFieldDelete.getText())) {
                     setTitleTask(jTextFieldDelete.getText());
                     deleteTask();
+                    TimeManipulation.updateTimeTask(tasks);
                     dispose();
                 } else {
                     try {

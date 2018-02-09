@@ -2,7 +2,9 @@ package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
 import es.esy.kapcapx.Tasks;
+import es.esy.kapcapx.TimeTask;
 import es.esy.kapcapx.action.Act;
+import es.esy.kapcapx.action.TimeManipulation;
 import es.esy.kapcapx.exceptions.FindTaskTitle;
 
 import javax.swing.*;
@@ -151,6 +153,7 @@ public class AddForm extends JFrame {
                     tempTask.setContacts(textFieldContactTask.getText());
                     setTask(tempTask);
                     addTask();
+                    TimeManipulation.updateTimeTask(tasks);
                     dispose();
                 } else {
                     try {

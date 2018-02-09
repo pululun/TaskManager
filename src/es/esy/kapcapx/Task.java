@@ -1,11 +1,8 @@
 package es.esy.kapcapx;
 
-import com.sun.xml.internal.txw2.annotation.XmlElement;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 import java.util.Date;
 
 @XmlRootElement(name = "Task")
@@ -15,6 +12,7 @@ public class Task {
     private String description;
     private Date date;
     private String contacts;
+    private Boolean checked = false;
 
     public void setTitle(String title) {
         this.title = title;
@@ -32,6 +30,10 @@ public class Task {
         this.contacts = contacts;
     }
 
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -46,6 +48,10 @@ public class Task {
 
     public String getContacts() {
         return contacts;
+    }
+
+    public Boolean getChecked() {
+        return checked;
     }
 
     @Override

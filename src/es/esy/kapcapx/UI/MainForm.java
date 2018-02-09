@@ -2,6 +2,8 @@ package es.esy.kapcapx.UI;
 
 import es.esy.kapcapx.Task;
 import es.esy.kapcapx.Tasks;
+import es.esy.kapcapx.action.TimeManipulation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,7 @@ public class MainForm extends JFrame{
         setLayout(new BorderLayout());
         add(createBottomPanel(), BorderLayout.SOUTH);
         add(createListPanel());
+        TimeManipulation.updateTimeTask(tasks);
     }
 
     private JPanel createListPanel() {
