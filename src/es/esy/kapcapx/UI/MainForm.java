@@ -34,7 +34,10 @@ public class MainForm extends JFrame{
     private JPanel createListPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.add(new JScrollPane(listTask = createListTask()), BorderLayout.CENTER);
+        JScrollPane jScrollPane = new JScrollPane(listTask = createListTask());
+        jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        panel.add(jScrollPane, BorderLayout.CENTER);
         return panel;
     }
 

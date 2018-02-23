@@ -96,6 +96,7 @@ public class DeleteForm extends JFrame{
                 if (new Act().findTitleTask(tasks, jTextFieldDelete.getText())) {
                     setTitleTask(jTextFieldDelete.getText());
                     deleteTask();
+                    TimeManipulation.cancelTimerTask();
                     TimeManipulation.updateTimeTask(tasks);
                     dispose();
                 } else {

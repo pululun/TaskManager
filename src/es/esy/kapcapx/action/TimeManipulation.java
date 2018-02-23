@@ -7,17 +7,17 @@ import es.esy.kapcapx.TimeTask;
 import java.util.Timer;
 
 public class TimeManipulation {
-    private static Timer timer = new Timer();
+    private static Timer timer;
 
     public static void updateTimeTask(Tasks tasks) {
-        cancelTimerTask();
+        timer = new Timer();
         for (Task task : tasks.getTasks()) {
             TimeTask timeTask = new TimeTask(task);
             timer.schedule(timeTask, timeTask.getDate());
         }
     }
 
-    private static void cancelTimerTask() {
+    public static void cancelTimerTask() {
             timer.cancel();
             timer.purge();
     }

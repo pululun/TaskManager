@@ -153,6 +153,7 @@ public class AddForm extends JFrame {
                     tempTask.setContacts(textFieldContactTask.getText());
                     setTask(tempTask);
                     addTask();
+                    TimeManipulation.cancelTimerTask();
                     TimeManipulation.updateTimeTask(tasks);
                     dispose();
                 } else {
