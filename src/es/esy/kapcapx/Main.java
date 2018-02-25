@@ -1,12 +1,14 @@
 package es.esy.kapcapx;
 
 import es.esy.kapcapx.UI.MainForm;
+import es.esy.kapcapx.action.Tray;
 import es.esy.kapcapx.serializationJAXB.Serialization;
 
 import javax.xml.bind.JAXBException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -41,6 +43,11 @@ public class Main {
         }
 
         MainForm mainForm = new MainForm(tasks);
+        try {
+            Tray tray = new Tray(mainForm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mainForm.setVisible(true);
 
         mainForm.addWindowListener(new WindowListener() {
