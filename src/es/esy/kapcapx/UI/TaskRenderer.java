@@ -40,6 +40,13 @@ public class TaskRenderer extends JPanel implements ListCellRenderer<Task> {
         lDate.setText(task.getDate().toString());
         lContacts.setText(task.getContacts());
         this.setOpaque(true);
+        if (task.getChecked()) {
+            lDate.setForeground(Color.RED);
+            lTitle.setForeground(Color.RED);
+        } else {
+            lDate.setForeground(Color.BLACK);
+            lTitle.setForeground(Color.BLACK);
+        }
         if (isSelected) {
             this.setBackground(list.getSelectionBackground());
         } else {
